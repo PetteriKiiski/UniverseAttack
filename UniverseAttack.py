@@ -8,6 +8,7 @@ Continue = pygame.image.load("Continue.png")
 Restart = pygame.image.load("Restart.png")
 RestartGameDialog = pygame.image.load("RestartGameDialog.png")
 NeverMind = pygame.image.load("NeverMind.png")
+Sand = pygame.image.load("Sand.png")
 def HomePage():
 	while True:
 		canvas.fill((255, 255, 255))
@@ -41,19 +42,71 @@ def GamePage():
 	except Exception as err:
 		print (err)
 	if info == None:
-		info = {"board":[[[None] * 500]] * 500}
-	home = [random.randint(0, 500), random.randint(0, 500)]
-	enemy = [random.randint(0, 500), random.randint(0, 500)]
-	info[home[1]][home[0]] = "Home"
-	info[home[1] + 1][home[0]] = "Home"
-	info[home[1] + 1][home[0] + 1] = "Home"
-	info[home[1]][home[0] + 1] = "Home"
-	info[enemy[1]][enemy[0]] = "Enemy"
-	info[enemy[1] + 1][enemy[0]] = "Enemy"
-	info[enemy[1] + 1][enemy[0] + 1] = "Enemy"
-	info[enemy[1]][enemy[0] + 1] = "Enemy"
+		info = {"board":[[3] * 200] * 200, "ids":[], "loc" : [0, 0], "HomeColor" : "", "EnemyColor" : ""}
+		home = [random.randint(0, 198), random.randint(0, 198)]
+		enemy = [random.randint(0, 198), random.randint(0, 198)]
+#		print (len(info["board"]))
+#		print (len(info["board"][0]))
+		print (home)
+		print (enemy)
+		#GLITCH IS IN THIS SEGMENT:
+		#-----------------------------------------------------------
+		info["board"][home[1]][home[0]] = 0
+		info["board"][home[1] + 1][home[0]] = 0
+		info["board"][home[1] + 1][home[0] + 1] = 0
+		info["board"][home[1]][home[0] + 1] = 0
+		info["board"][enemy[1]][enemy[0]] = 1
+		info["board"][enemy[1] + 1][enemy[0]] = 1
+		info["board"][enemy[1] + 1][enemy[0] + 1] = 1
+		info["board"][enemy[1]][enemy[0] + 1] = 1
+		#-----------------------------------------------------------
+		print (info["board"])
+		#1360, 660
+		#68, 66
+		info["loc"] = [home[0]-5, home[1]-10]
+		for x in range(info["loc"][0], info["loc"][0] + 20):
+			for y in range(info["loc"][1], info["loc"][1] + 10):
+				if x >= 200 or y >= 200 or x < 0 or y < 0 or info["board"][y][x] != 3:
+					break
+				info["board"][y][x] = 2
+		info["ids"] += [["Home", "Base"]]
+		info["ids"] += [["Enemy", "HiddenBase"]]
+		info["ids"] += [["Neutral", "Sand"]]
+		info["ids"] += [["Neutral", None]]
+		colors = ["Red", "Blue", "Green"]
+		info["HomeColor"] = random.choice(colors)
+		del colors[colors.index(info["HomeColor"])]
+		info["EnemyColor"] = random.choice(colors)
+		try:
+			with open("game.json", "w") as fh:
+				json.dump(info, fh)
+		except EnvironmentError:
+			print ("Unable to save scenario")
+		except Exception as err:
+			print (err)
 	while True:
-		canvas.fill((255, 255, 255))
+		canvas.fill((0, 0, 0))
+		for x in range(info["loc"][0], info["loc"][0] + 23):
+			for y in range(info["loc"][1], info["loc"][1] + 20):
+#				print (y, x)
+				if x >= 200 or y >= 200 or x < 0 or y < 0:
+					break
+				value = info["ids"][info["board"][y][x]]
+				if value[1] == None:
+					continue
+				loc_x = ((x - info["loc"][0]) * 68)
+				loc_y = ((y - info["loc"][1]) * 66)
+				canvas.blit(Sand, (loc_x, loc_y))
+				if value[1] == "Base":
+#					print ("Base")
+					if value[0] == "Home":
+#						print ("Home")
+						img = pygame.image.load("{}Base.png".format(info["HomeColor"]))
+						canvas.blit(img, (loc_x, loc_y))
+					if value[0] == "Enemy":
+#						print ("Enemy")
+						img = pygame.image.load("{}Base.png".format(info["EnemyColor"]))
+						canvas.blit(img, (loc_x, loc_y))
 		for event in pygame.event.get():
 			if event.type == QUIT:
 				pygame.quit()
