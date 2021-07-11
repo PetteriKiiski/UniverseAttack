@@ -49,7 +49,7 @@ def GamePage():
 #		print (len(info["board"][0]))
 		print (home)
 		print (enemy)
-		#GLITCH IS IN THIS SEGMENT:
+		#GLITCH IS IN THIS SEGMENT:ALL PARTS
 		#-----------------------------------------------------------
 		info["board"][home[1]][home[0]] = 0
 		info["board"][home[1] + 1][home[0]] = 0
@@ -60,7 +60,6 @@ def GamePage():
 		info["board"][enemy[1] + 1][enemy[0] + 1] = 1
 		info["board"][enemy[1]][enemy[0] + 1] = 1
 		#-----------------------------------------------------------
-		print (info["board"])
 		#1360, 660
 		#68, 66
 		info["loc"] = [home[0]-5, home[1]-10]
