@@ -1,24 +1,32 @@
+#Initialize stuff
 import pygame, sys, random, json
 from pygame.locals import *
 pygame.init()
 canvas = pygame.display.set_mode((1360, 660))
 pygame.display.set_caption("Universe Attack")
+#Load images
 Home = pygame.image.load("Home.png")
 Continue = pygame.image.load("Continue.png")
 Restart = pygame.image.load("Restart.png")
 RestartGameDialog = pygame.image.load("RestartGameDialog.png")
 NeverMind = pygame.image.load("NeverMind.png")
 Sand = pygame.image.load("Sand.png")
+#Make Home page
 def HomePage():
+	#MainLoop
 	while True:
+		#Set up screen for this loop
 		canvas.fill((255, 255, 255))
 		canvas.blit(Home, (0, 0))
 		canvas.blit(Continue, (228, 560))
 		canvas.blit(Restart, (681, 560))
+		#Catch events
 		for event in pygame.event.get():
+			#Quit if needed
 			if event.type == QUIT:
 				pygame.quit()
 				sys.exit()
+			#Restart or play game if needed
 			if event.type == MOUSEBUTTONDOWN:
 				m_pos = pygame.mouse.get_pos()
 				if pygame.Rect(681, 560, 250, 64).collidepoint(m_pos):
@@ -32,8 +40,11 @@ def HomePage():
 							print (err)
 				if pygame.Rect(228, 560, 250, 64).collidepoint(m_pos):
 					GamePage()
+		#Update display
 		pygame.display.update()
+#Create Game Page
 def GamePage():
+	#Read game file
 	try:
 		with open("game.json", "r") as fh:
 			info = json.load(fh)
@@ -41,7 +52,8 @@ def GamePage():
 		print ("Unable to load")
 	except Exception as err:
 		print (err)
-	print (info)
+#	print (info)
+	#if there is no information in the json file, we need to write the information ourselves
 	if info == None:
 		info = {"board":[[3] * 200] * 200, "ids":[], "loc" : [0, 0], "HomeColor" : "", "EnemyColor" : ""}
 		home = [random.randint(0, 198), random.randint(0, 198)]
@@ -52,7 +64,20 @@ def GamePage():
 		print (enemy)
 		#GLITCH IS IN THIS SEGMENT:ALL PARTS
 		#-----------------------------------------------------------
+#		sumofboard = 0
+#		for i in range(0, len(info["board"])):
+#			for x in range(0, len(info["board"][i])):
+#				if info["board"][i][x] == 0:
+#					sumofboard += 1
+#		print (sumofboard)
+		#somehow, this adds 200 squares of base
 		info["board"][home[1]][home[0]] = 0
+#		sumofboard = 0
+#		for i in range(0, len(info["board"])):
+#			for x in range(0, len(info["board"][i])):
+#				if info["board"][i][x] == 0:
+#					sumofboard += 1
+#		print (sumofboard)
 		info["board"][home[1] + 1][home[0]] = 0
 		info["board"][home[1] + 1][home[0] + 1] = 0
 		info["board"][home[1]][home[0] + 1] = 0
@@ -65,7 +90,7 @@ def GamePage():
 		#68, 66
 		info["loc"] = [home[0]-5, home[1]-10]
 		for x in range(info["loc"][0], info["loc"][0] + 20):
-			for y in range(info["loc"][1], info["loc"][1] + 11):
+			for y in range(info["loc"][1], info["loc"][1] + 10):
 				if x >= 200 or y >= 200 or x < 0 or y < 0 or info["board"][y][x] != 3:
 					break
 				info["board"][y][x] = 2
@@ -84,11 +109,13 @@ def GamePage():
 			print ("Unable to save scenario")
 		except Exception as err:
 			print (err)
+	else:
+		print (len(info["board"]))
 	while True:
 		canvas.fill((0, 0, 0))
 		HomeCount = 0
 		for x in range(info["loc"][0], info["loc"][0] + 20):
-			for y in range(info["loc"][1], info["loc"][1] + 11):
+			for y in range(info["loc"][1], info["loc"][1] + 10):
 #				print (y, x)
 				if x >= 200 or y >= 200 or x < 0 or y < 0:
 					break
@@ -101,7 +128,7 @@ def GamePage():
 				if value[1] == "Base":
 #					print ("Base")
 					if value[0] == "Home":
-						print (HomeCount + 1)
+#						print (HomeCount + 1)
 						HomeCount += 1
 						img = pygame.image.load("{}Base.png".format(info["HomeColor"]))
 						canvas.blit(img, (loc_x, loc_y))
