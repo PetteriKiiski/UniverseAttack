@@ -41,12 +41,13 @@ def GamePage():
 		print ("Unable to load")
 	except Exception as err:
 		print (err)
+	print (info)
 	if info == None:
 		info = {"board":[[3] * 200] * 200, "ids":[], "loc" : [0, 0], "HomeColor" : "", "EnemyColor" : ""}
 		home = [random.randint(0, 198), random.randint(0, 198)]
 		enemy = [random.randint(0, 198), random.randint(0, 198)]
-#		print (len(info["board"]))
-#		print (len(info["board"][0]))
+		print (len(info["board"]))
+		print (len(info["board"][0]))
 		print (home)
 		print (enemy)
 		#GLITCH IS IN THIS SEGMENT:ALL PARTS
@@ -64,7 +65,7 @@ def GamePage():
 		#68, 66
 		info["loc"] = [home[0]-5, home[1]-10]
 		for x in range(info["loc"][0], info["loc"][0] + 20):
-			for y in range(info["loc"][1], info["loc"][1] + 10):
+			for y in range(info["loc"][1], info["loc"][1] + 11):
 				if x >= 200 or y >= 200 or x < 0 or y < 0 or info["board"][y][x] != 3:
 					break
 				info["board"][y][x] = 2
@@ -85,8 +86,9 @@ def GamePage():
 			print (err)
 	while True:
 		canvas.fill((0, 0, 0))
-		for x in range(info["loc"][0], info["loc"][0] + 23):
-			for y in range(info["loc"][1], info["loc"][1] + 20):
+		HomeCount = 0
+		for x in range(info["loc"][0], info["loc"][0] + 20):
+			for y in range(info["loc"][1], info["loc"][1] + 11):
 #				print (y, x)
 				if x >= 200 or y >= 200 or x < 0 or y < 0:
 					break
@@ -99,7 +101,8 @@ def GamePage():
 				if value[1] == "Base":
 #					print ("Base")
 					if value[0] == "Home":
-#						print ("Home")
+						print (HomeCount + 1)
+						HomeCount += 1
 						img = pygame.image.load("{}Base.png".format(info["HomeColor"]))
 						canvas.blit(img, (loc_x, loc_y))
 					if value[0] == "Enemy":
