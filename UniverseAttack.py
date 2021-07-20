@@ -1,3 +1,4 @@
+#[[3] * 200] * 200
 #Initialize stuff
 import pygame, sys, random, json
 from pygame.locals import *
@@ -55,40 +56,38 @@ def GamePage():
 #	print (info)
 	#if there is no information in the json file, we need to write the information ourselves
 	if info == None:
-		info = {"board":[[3] * 200] * 200, "ids":[], "loc" : [0, 0], "HomeColor" : "", "EnemyColor" : ""}
+		info = {"board":[], "ids":[], "loc" : [0, 0], "HomeColor" : "", "EnemyColor" : ""} #200x200
 		home = [random.randint(0, 198), random.randint(0, 198)]
 		enemy = [random.randint(0, 198), random.randint(0, 198)]
-		print (len(info["board"]))
-		print (len(info["board"][0]))
+		for x in range(0, 200):
+			info["board"].append([])
+			for y in range(0, 200):
+				info["board"][-1].append(3)
 		print (home)
 		print (enemy)
-		#GLITCH IS IN THIS SEGMENT:ALL PARTS
-		#-----------------------------------------------------------
-#		sumofboard = 0
-#		for i in range(0, len(info["board"])):
-#			for x in range(0, len(info["board"][i])):
-#				if info["board"][i][x] == 0:
-#					sumofboard += 1
-#		print (sumofboard)
-		#somehow, this adds 200 squares of base
-		info["board"][home[1]][home[0]] = 0
-#		sumofboard = 0
-#		for i in range(0, len(info["board"])):
-#			for x in range(0, len(info["board"][i])):
-#				if info["board"][i][x] == 0:
-#					sumofboard += 1
-#		print (sumofboard)
-		info["board"][home[1] + 1][home[0]] = 0
-		info["board"][home[1] + 1][home[0] + 1] = 0
-		info["board"][home[1]][home[0] + 1] = 0
-		info["board"][enemy[1]][enemy[0]] = 1
-		info["board"][enemy[1] + 1][enemy[0]] = 1
-		info["board"][enemy[1] + 1][enemy[0] + 1] = 1
-		info["board"][enemy[1]][enemy[0] + 1] = 1
+		info["board"][home[0]][home[1]] = 0
+		info["board"][home[0] + 1][home[1]] = 0
+		info["board"][home[0] + 1][home[1] + 1] = 0
+		info["board"][home[0]][home[1] + 1] = 0
+		info["board"][enemy[0]][enemy[1]] = 1
+		info["board"][enemy[0] + 1][enemy[1]] = 1
+		info["board"][enemy[0] + 1][enemy[1] + 1] = 1
+		info["board"][enemy[0]][enemy[1] + 1] = 1
 		#-----------------------------------------------------------
 		#1360, 660
 		#68, 66
-		info["loc"] = [home[0]-5, home[1]-10]
+#l = [[3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [3, 3, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [3, 3, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]]
+#scannable = [-9, -3]
+#scanned = []
+#for x in range(scannable[0], scannable[0] + 20):
+#	if x >= 30 or x < 0:
+#		continue
+#	scanned += [[]]
+#	for y in range(scannable[1], scannable[1] + 10):
+#		if y >= 30 or y < 0:
+#			continue
+#		scanned[-1] += [l[y][x]]
+		info["loc"] = [home[0]-10, home[1]-5]
 		for x in range(info["loc"][0], info["loc"][0] + 20):
 			for y in range(info["loc"][1], info["loc"][1] + 10):
 				if x >= 200 or y >= 200 or x < 0 or y < 0 or info["board"][y][x] != 3:
@@ -109,8 +108,6 @@ def GamePage():
 			print ("Unable to save scenario")
 		except Exception as err:
 			print (err)
-	else:
-		print (len(info["board"]))
 	while True:
 		canvas.fill((0, 0, 0))
 		HomeCount = 0
@@ -126,9 +123,9 @@ def GamePage():
 				loc_y = ((y - info["loc"][1]) * 66)
 				canvas.blit(Sand, (loc_x, loc_y))
 				if value[1] == "Base":
-#					print ("Base")
+					print ("Base")
 					if value[0] == "Home":
-#						print (HomeCount + 1)
+						print (HomeCount + 1)
 						HomeCount += 1
 						img = pygame.image.load("{}Base.png".format(info["HomeColor"]))
 						canvas.blit(img, (loc_x, loc_y))
