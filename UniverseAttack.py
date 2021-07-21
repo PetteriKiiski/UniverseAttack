@@ -73,6 +73,7 @@ def GamePage():
 		info["board"][enemy[0] + 1][enemy[1]] = 1
 		info["board"][enemy[0] + 1][enemy[1] + 1] = 1
 		info["board"][enemy[0]][enemy[1] + 1] = 1
+		info["loc"] = [home[0] - 10, home[1] - 5]
 		#-----------------------------------------------------------
 		#1360, 660
 		#68, 66
@@ -80,10 +81,18 @@ def GamePage():
 			if x >= 30 or x < 0:
 				continue
 			for y in range(info["loc"][1], info["loc"][1] + 10):
-				if y >= 30 or y < 0 or info["board"][y][x] == 1:
+				if y >= 30 or y < 0 or info["board"][y][x] in [0, 1]:
 					continue
 				info["board"][y][x] = 2
 		print (info["board"])
+#for x in range(scannable[0], scannable[0] + 20):
+#	if x >= 30 or x < 0:
+#		continue
+#	for y in range(scannable[1], scannable[1] + 10):
+#		if y >= 30 or y < 0 or l[y][x] == 1:
+#			continue
+#		l[y][x] = 2
+
 #		for x in range(info["loc"][0], info["loc"][0] + 20):
 #			for y in range(info["loc"][1], info["loc"][1] + 10):
 #				if x >= 200 or y >= 200 or x < 0 or y < 0 or info["board"][y][x] != 3:
