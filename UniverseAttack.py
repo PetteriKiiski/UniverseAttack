@@ -57,14 +57,14 @@ def GamePage():
 	#if there is no information in the json file, we need to write the information ourselves
 	if info == None:
 		info = {"board":[], "ids":[], "loc" : [0, 0], "HomeColor" : "", "EnemyColor" : ""} #200x200
-		home = [random.randint(0, 198), random.randint(0, 198)]
-		enemy = [random.randint(0, 198), random.randint(0, 198)]
+		home = [99, 58]
+		enemy = [142, 48]
 		for x in range(0, 200):
 			info["board"].append([])
 			for y in range(0, 200):
 				info["board"][-1].append(3)
-		print (home)
-		print (enemy)
+#		print (home)
+#		print (enemy)
 		info["board"][home[0]][home[1]] = 0
 		info["board"][home[0] + 1][home[1]] = 0
 		info["board"][home[0] + 1][home[1] + 1] = 0
@@ -78,13 +78,13 @@ def GamePage():
 		#1360, 660
 		#68, 66
 		for x in range(info["loc"][0], info["loc"][0] + 20):
-			if x >= 30 or x < 0:
+			if x >= 200 or x < 0:
 				continue
 			for y in range(info["loc"][1], info["loc"][1] + 10):
-				if y >= 30 or y < 0 or info["board"][y][x] in [0, 1]:
+				if y >= 200 or y < 0 or info["board"][y][x] in [0, 1]:
 					continue
 				info["board"][y][x] = 2
-		print (info["board"])
+#		print (info["board"])
 #for x in range(scannable[0], scannable[0] + 20):
 #	if x >= 30 or x < 0:
 #		continue
@@ -128,9 +128,9 @@ def GamePage():
 				loc_y = ((y - info["loc"][1]) * 66)
 				canvas.blit(Sand, (loc_x, loc_y))
 				if value[1] == "Base":
-					print ("Base")
+#					print ("Base")
 					if value[0] == "Home":
-						print (HomeCount + 1)
+#						print (HomeCount + 1)
 						HomeCount += 1
 						img = pygame.image.load("{}Base.png".format(info["HomeColor"]))
 						canvas.blit(img, (loc_x, loc_y))
