@@ -57,8 +57,8 @@ def GamePage():
 	#if there is no information in the json file, we need to write the information ourselves
 	if info == None:
 		info = {"board":[], "ids":[], "loc" : [0, 0], "HomeColor" : "", "EnemyColor" : ""} #200x200
-		home = [99, 58]
-		enemy = [142, 48]
+		home = [random.randint(0, 198), random.randint(0, 198)]
+		enemy = [random.randint(0, 198), random.randint(0, 198)]
 		for x in range(0, 200):
 			info["board"].append([])
 			for y in range(0, 200):
