@@ -58,6 +58,7 @@ def GamePage():
 	if info == None:
 		info = {"board":[], "ids":[], "loc" : [0, 0], "HomeColor" : "", "EnemyColor" : ""} #200x200
 		home = [random.randint(0, 198), random.randint(0, 198)]
+		print (home)
 		enemy = [random.randint(0, 198), random.randint(0, 198)]
 		for x in range(0, 200):
 			info["board"].append([])
@@ -77,13 +78,16 @@ def GamePage():
 		#-----------------------------------------------------------
 		#1360, 660
 		#68, 66
+		displayed = False
 		for x in range(info["loc"][0], info["loc"][0] + 20):
 			if x >= 200 or x < 0:
 				continue
 			for y in range(info["loc"][1], info["loc"][1] + 10):
-				if y >= 200 or y < 0 or info["board"][y][x] in [0, 1]:
+				if not displayed:
+					print ("{0}, {1}".format(x, y))
+				if y >= 200 or y < 0 or info["board"][x][y] in [0, 1]:
 					continue
-				info["board"][y][x] = 2
+				info["board"][x][y] = 2
 #		print (info["board"])
 #for x in range(scannable[0], scannable[0] + 20):
 #	if x >= 30 or x < 0:
@@ -121,14 +125,14 @@ def GamePage():
 #				print (y, x)
 				if x >= 200 or y >= 200 or x < 0 or y < 0:
 					break
-				value = info["ids"][info["board"][y][x]]
+				value = info["ids"][info["board"][x][y]]
 				if value[1] == None:
 					continue
 				loc_x = ((x - info["loc"][0]) * 68)
 				loc_y = ((y - info["loc"][1]) * 66)
 				canvas.blit(Sand, (loc_x, loc_y))
 				if value[1] == "Base":
-#					print ("Base")
+					print ("Base")
 					if value[0] == "Home":
 #						print (HomeCount + 1)
 						HomeCount += 1
