@@ -13,6 +13,8 @@ RestartGameDialog = pygame.image.load("Images/RestartGameDialog.png")
 NeverMind = pygame.image.load("Images/NeverMind.png")
 Sand = pygame.image.load("Images/Sand.png")
 Blank = pygame.image.load("Images/Blank.png")
+HomeBase = pygame.image.load("Images/HomeBase.png")
+Build = pygame.image.load("Images/Build.png")
 #Make Home page
 def HomePage():
 	#MainLoop
@@ -149,16 +151,25 @@ def GamePage():
 				loc_y = ((y - info["loc"][1]) * 66)
 				canvas.blit(Blank, (loc_x, loc_y))
 		if info["Sidebar"] == ["Home", "Base"]:
-			img = pygame.image.load("Images/{}Base.png".format(info["EnemyColor"]))
-			canvas.blit(img, (1224, 132))
+			img = pygame.image.load("Images/{}Base.png".format(info["HomeColor"]))
+			canvas.blit(img, (1190, 132))
+			canvas.blit(HomeBase, (1088, 0))
+			canvas.blit(Build, (1088, 264))
+		if info["Sidebar"] == ["Enemy", "Base"]:
+			img = pygame.image.load("Images/{}Base.png".format(info["HomeColor"]))
+			canvas.blit(img, (1190, 132))
+			canvas.blit(HomeBase, (1088, 0))
 		for event in pygame.event.get():
 			if event.type == QUIT:
 				pygame.quit()
 				sys.exit()
 			if event.type == MOUSEBUTTONDOWN:
-				position = pygame.mouse.get_pos()
+				pos = pygame.mouse.get_pos()
 				x = pos[0] // 68 + info["loc"][0]
 				y = pos[1] // 66 + info["loc"][1]
+				if info["Sidebar"] == ["Home", "Base"]:
+					if pygame.Rect(1088, 264, 272, 68).collidepoint(pos):
+						BuildPage(["{}BlackWidowFactory.png"])
 				info["Sidebar"] = info["ids"][info["board"][x][y]]
 		pygame.display.update()
 def BuildPage(Options):
