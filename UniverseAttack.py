@@ -12,6 +12,7 @@ Restart = pygame.image.load("Restart.png")
 RestartGameDialog = pygame.image.load("RestartGameDialog.png")
 NeverMind = pygame.image.load("NeverMind.png")
 Sand = pygame.image.load("Sand.png")
+Blank = pygame.image.load("Blank.png")
 #Make Home page
 def HomePage():
 	#MainLoop
@@ -56,7 +57,7 @@ def GamePage():
 #	print (info)
 	#if there is no information in the json file, we need to write the information ourselves
 	if info == None:
-		info = {"board":[], "ids":[], "loc" : [0, 0], "HomeColor" : "", "EnemyColor" : ""} #200x200
+		info = {"board":[], "ids":[], "loc" : [0, 0], "HomeColor" : "", "EnemyColor" : "", "Sidebar" : None} #200x200
 		home = [random.randint(0, 198), random.randint(0, 198)]
 		print (home)
 		enemy = [random.randint(0, 198), random.randint(0, 198)]
@@ -74,12 +75,12 @@ def GamePage():
 		info["board"][enemy[0] + 1][enemy[1]] = 1
 		info["board"][enemy[0] + 1][enemy[1] + 1] = 1
 		info["board"][enemy[0]][enemy[1] + 1] = 1
-		info["loc"] = [home[0] - 10, home[1] - 5]
+		info["loc"] = [home[0] - 8, home[1] - 5]
 		#-----------------------------------------------------------
 		#1360, 660
 		#68, 66
 		displayed = False
-		for x in range(info["loc"][0], info["loc"][0] + 20):
+		for x in range(info["loc"][0], info["loc"][0] + 16):
 			if x >= 200 or x < 0:
 				continue
 			for y in range(info["loc"][1], info["loc"][1] + 10):
@@ -120,7 +121,7 @@ def GamePage():
 	while True:
 		canvas.fill((0, 0, 0))
 		HomeCount = 0
-		for x in range(info["loc"][0], info["loc"][0] + 20):
+		for x in range(info["loc"][0], info["loc"][0] + 16):
 			for y in range(info["loc"][1], info["loc"][1] + 10):
 #				print (y, x)
 				if x >= 200 or y >= 200 or x < 0 or y < 0:
@@ -142,11 +143,26 @@ def GamePage():
 #						print ("Enemy")
 						img = pygame.image.load("{}Base.png".format(info["EnemyColor"]))
 						canvas.blit(img, (loc_x, loc_y))
+		for x in range(info["loc"][0] + 16, info["loc"][0] + 20):
+			for y in range(info["loc"][1], info["loc"][1] + 10):
+				loc_x = ((x - info["loc"][0]) * 68)
+				loc_y = ((y - info["loc"][1]) * 66)
+				canvas.blit(Blank, (loc_x, loc_y))
+		if info["Sidebar"] == ["Home", "Base"]:
+			img = pygame.image.load("{}Base.png".format(info["EnemyColor"]))
+			canvas.blit(img, (1224, 132))
 		for event in pygame.event.get():
 			if event.type == QUIT:
 				pygame.quit()
 				sys.exit()
+			if event.type == MOUSEBUTTONDOWN:
+				position = pygame.mouse.get_pos()
+				x = pos[0] // 68 + info["loc"][0]
+				y = pos[1] // 66 + info["loc"][1]
+				info["Sidebar"] = info["ids"][info["board"][x][y]]
 		pygame.display.update()
+def BuildPage(Options):
+	pass
 def MenuPage():
 	while True:
 		for event in pygame.event.get():
