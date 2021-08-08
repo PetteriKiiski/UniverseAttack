@@ -6,13 +6,13 @@ pygame.init()
 canvas = pygame.display.set_mode((1360, 660))
 pygame.display.set_caption("Universe Attack")
 #Load images
-Home = pygame.image.load("Home.png")
-Continue = pygame.image.load("Continue.png")
-Restart = pygame.image.load("Restart.png")
-RestartGameDialog = pygame.image.load("RestartGameDialog.png")
-NeverMind = pygame.image.load("NeverMind.png")
-Sand = pygame.image.load("Sand.png")
-Blank = pygame.image.load("Blank.png")
+Home = pygame.image.load("Images/Home.png")
+Continue = pygame.image.load("Images/Continue.png")
+Restart = pygame.image.load("Images/Restart.png")
+RestartGameDialog = pygame.image.load("Images/RestartGameDialog.png")
+NeverMind = pygame.image.load("Images/NeverMind.png")
+Sand = pygame.image.load("Images/Sand.png")
+Blank = pygame.image.load("Images/Blank.png")
 #Make Home page
 def HomePage():
 	#MainLoop
@@ -137,11 +137,11 @@ def GamePage():
 					if value[0] == "Home":
 #						print (HomeCount + 1)
 						HomeCount += 1
-						img = pygame.image.load("{}Base.png".format(info["HomeColor"]))
+						img = pygame.image.load("Images/{}Base.png".format(info["HomeColor"]))
 						canvas.blit(img, (loc_x, loc_y))
 					if value[0] == "Enemy":
 #						print ("Enemy")
-						img = pygame.image.load("{}Base.png".format(info["EnemyColor"]))
+						img = pygame.image.load("Images/{}Base.png".format(info["EnemyColor"]))
 						canvas.blit(img, (loc_x, loc_y))
 		for x in range(info["loc"][0] + 16, info["loc"][0] + 20):
 			for y in range(info["loc"][1], info["loc"][1] + 10):
@@ -149,7 +149,7 @@ def GamePage():
 				loc_y = ((y - info["loc"][1]) * 66)
 				canvas.blit(Blank, (loc_x, loc_y))
 		if info["Sidebar"] == ["Home", "Base"]:
-			img = pygame.image.load("{}Base.png".format(info["EnemyColor"]))
+			img = pygame.image.load("Images/{}Base.png".format(info["EnemyColor"]))
 			canvas.blit(img, (1224, 132))
 		for event in pygame.event.get():
 			if event.type == QUIT:
