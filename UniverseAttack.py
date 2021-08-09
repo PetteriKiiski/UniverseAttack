@@ -15,6 +15,24 @@ Sand = pygame.image.load("Images/Sand.png")
 Blank = pygame.image.load("Images/Blank.png")
 HomeBase = pygame.image.load("Images/HomeBase.png")
 Build = pygame.image.load("Images/Build.png")
+BuildPageImg = pygame.image.load("Images/BuildPage.png")
+Up = pygame.image.load("Images/Up.png")
+Down = pygame.image.load("Images/Down.png")
+class CoinManager:
+	def __init__(self):
+		self.num_coin_collectors = 0
+		timer = time.time()
+		commit_timer = None
+	def get_no_coins(self):
+		if time.time() - timer >= 5:
+			timer = time.time()
+			return self.num_coin_collectors * 10
+	def pause_mode(self):
+		commit_timer = time.time() - timer
+	def continue_mode(self):
+		if commit_timer == None:
+			return
+		timer = time.time() - commit_timer
 #Make Home page
 def HomePage():
 	#MainLoop
@@ -59,7 +77,7 @@ def GamePage():
 #	print (info)
 	#if there is no information in the json file, we need to write the information ourselves
 	if info == None:
-		info = {"board":[], "ids":[], "loc" : [0, 0], "HomeColor" : "", "EnemyColor" : "", "Sidebar" : None} #200x200
+		info = {"board":[], "ids":[], "loc" : [0, 0], "HomeColor" : "", "EnemyColor" : "", "Sidebar" : None, "Coins" : 100, "CoinManager"} #200x200
 		home = [random.randint(0, 198), random.randint(0, 198)]
 		print (home)
 		enemy = [random.randint(0, 198), random.randint(0, 198)]
@@ -91,20 +109,6 @@ def GamePage():
 				if y >= 200 or y < 0 or info["board"][x][y] in [0, 1]:
 					continue
 				info["board"][x][y] = 2
-#		print (info["board"])
-#for x in range(scannable[0], scannable[0] + 20):
-#	if x >= 30 or x < 0:
-#		continue
-#	for y in range(scannable[1], scannable[1] + 10):
-#		if y >= 30 or y < 0 or l[y][x] == 1:
-#			continue
-#		l[y][x] = 2
-
-#		for x in range(info["loc"][0], info["loc"][0] + 20):
-#			for y in range(info["loc"][1], info["loc"][1] + 10):
-#				if x >= 200 or y >= 200 or x < 0 or y < 0 or info["board"][y][x] != 3:
-#					break
-#				info["board"][y][x] = 2
 		info["ids"] += [["Home", "Base"]]
 		info["ids"] += [["Enemy", "HiddenBase"]]
 		info["ids"] += [["Neutral", "Sand"]]
@@ -120,6 +124,7 @@ def GamePage():
 			print ("Unable to save scenario")
 		except Exception as err:
 			print (err)
+	timer = 0
 	while True:
 		canvas.fill((0, 0, 0))
 		HomeCount = 0
@@ -135,7 +140,7 @@ def GamePage():
 				loc_y = ((y - info["loc"][1]) * 66)
 				canvas.blit(Sand, (loc_x, loc_y))
 				if value[1] == "Base":
-					print ("Base")
+#					print ("Base")
 					if value[0] == "Home":
 #						print (HomeCount + 1)
 						HomeCount += 1
@@ -169,11 +174,30 @@ def GamePage():
 				y = pos[1] // 66 + info["loc"][1]
 				if info["Sidebar"] == ["Home", "Base"]:
 					if pygame.Rect(1088, 264, 272, 68).collidepoint(pos):
-						BuildPage(["{}BlackWidowFactory.png"])
+						obj = BuildPage({"Images/{}BlackWidowFactory.png".format(info["HomeColor"]): 500, "Images/{}CoinCollector.png".format(info["HomeColor"]) : 100, "Images/{}Base.png".format(info["HomeColor"]):2000})
 				info["Sidebar"] = info["ids"][info["board"][x][y]]
 		pygame.display.update()
 def BuildPage(Options):
-	pass
+	id = 0
+	leavepage = False
+	while not leavepage:
+		canvas.fill((255, 255, 255))
+		canvas.blit(BuildPageImg, (0, 0))
+		canvas.blit(Up, (0, 270))
+		canvas.blit(Down, (0, 340))
+		img = pygame.image.load(Options[id])
+		tr_img = pygame.transform.scale(img, (500, 500))
+		canvas.blit(tr_img, (580, 80))
+		for event in pygame.event.get():
+			if event.type == QUIT:
+				pygame.quit()
+				sys.exit()
+			if event.type == KEYDOWN:
+				if event.key == K_LEFT:
+					leavepage = True
+				if event.key == K_RETURN:
+					return Options[id]
+		pygame.display.update()
 def MenuPage():
 	while True:
 		for event in pygame.event.get():
