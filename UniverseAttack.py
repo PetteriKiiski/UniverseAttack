@@ -205,10 +205,9 @@ def GamePage():
 				sys.exit()
 			if event.type == MOUSEBUTTONDOWN:
 				pos = pygame.mouse.get_pos()
-				print (pos[0] // 68)
-				x = abs((pos[0] // 68 + 1) - info["loc"][0]) # * 68
-				y = abs(pos[1] // 66 - info["loc"][1]) # * 66
-				print (info["board"][y][x])
+				x = abs((pos[0] // 68 + 1) - info["loc"][0]) + 1 # * 68
+				y = abs((pos[1] // 66 + 1) - info["loc"][1]) + 1 # * 66
+				print (x, y)
 				info["Sidebar"] = info["ids"][info["board"][x][y]]
 				if info["Sidebar"] == ["Home", "Base"]:
 					if pygame.Rect(1088, 264, 272, 68).collidepoint(pos):
